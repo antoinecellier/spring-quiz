@@ -34,11 +34,20 @@ public class UtilisateurDaoImpl implements IUtilisateurDAO {
 
 	@Override
 	public Utilisateur retrieve(String username) throws Exception {
-		Utilisateur u = em.find(Utilisateur.class, username);
+		Query q = em.createQuery("select u from Utilisateur u where u.username=:username")
+				    .setParameter("username", username);
+		Utilisateur u = (Utilisateur) q.getSingleResult();
 		if (u == null) throw new RuntimeException("Utilisateur introuvable");
 		return u;
 	}
 
+	@Override
+	public Utilisateur retrieveId(Integer utilisateurId) throws Exception {
+		Utilisateur u = em.find(Utilisateur.class, utilisateurId);
+		if (u == null) throw new RuntimeException("Utilisateur introuvable");
+		return u;
+	}
+	
 	@Override
 	public boolean exists(String username) throws Exception {
 		Utilisateur u = em.find(Utilisateur.class, username);

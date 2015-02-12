@@ -14,6 +14,8 @@ public interface IUtilisateurMetier{
 
     public Utilisateur retrieve (String name) throws Exception;
 
+    public Utilisateur retrieveId (Integer utilisateurId) throws Exception;
+    
     public boolean exists (String name) throws Exception;
 
     public Utilisateur update (Utilisateur u) throws Exception;

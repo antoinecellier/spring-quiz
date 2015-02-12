@@ -13,7 +13,9 @@ public interface IUtilisateurDAO {
     public Collection<String> retrieveAllName () throws Exception;
 
     public Utilisateur retrieve (String username) throws Exception;
-
+    
+    public Utilisateur retrieveId (Integer utilisateurId) throws Exception;
+    
     public boolean exists (String username) throws Exception;
 
     public Utilisateur update (Utilisateur u) throws Exception;

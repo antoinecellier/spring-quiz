@@ -76,6 +76,21 @@ public class QuestionController {
 		return "redirect:/admin/showQuestion/{questionId}";
 	}
 
+	@RequestMapping(value="admin/ajouterReponseImage")
+	public String ajouterRepImage(Model model, ReponseForm rf,
+							 RedirectAttributes redirectAttrs) throws Exception{
+		Integer questionId = rf.getQuestionId();
+		Question q = metier.retrieveId(questionId);
+		
+		
+		Reponse rep = metier.createReponse(new Reponse(rf.getName(), "text", q, rf.getCorrect()));
+
+		
+		
+		redirectAttrs.addAttribute("questionId", questionId);
+		return "redirect:/admin/showQuestion/{questionId}";
+	}
+	
 	@RequestMapping(value="admin/deleteReponse/{reponseId}/{questionId}")
 	public String deleteReponse(@PathVariable Integer reponseId,@PathVariable Integer questionId,
 					   Model model, HttpServletRequest request, RedirectAttributes redirectAttrs) throws Exception{
@@ -95,11 +110,18 @@ public class QuestionController {
 	
 	@RequestMapping(value="admin/deleteQuestion/{questionId}")
 	public String delete(@PathVariable Integer questionId,
-					   Model model) throws Exception{
+					   Model model, final RedirectAttributes redirectAttributes) throws Exception{
 		Question q = metier.retrieveId(questionId);
 		
-		if(q != null)
-			metier.delete(q);
+		if(q != null){
+			try{
+				metier.delete(q);
+			}catch(Exception e){
+				 redirectAttributes.addFlashAttribute("messageFlash",
+						 							  "Cette question appartient à des questionnaires, impossible de la supprimer");
+				 return "redirect:/admin/question";
+			}
+		}
 		
 		return "redirect:/admin/question";
 	}
