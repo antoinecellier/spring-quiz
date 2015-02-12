@@ -1,10 +1,12 @@
 <%@include file="/WEB-INF/views/admin/layout/header.jsp" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 	
+	${ bytes } <br>
+	${ contentype }
 	<h1>${Question.name}</h1>
 	
 	<spring:url var = "action" value='/admin/ajouterReponse' />
-		<spring:url var = "addReponseImage" value='/admin/ajouterReponseImage' />
+		
 	<f:form modelAttribute="reponseForm" method="post" action="${action}">
 		<label>Réponse texte</label>
 		<f:input path="name"/>
@@ -17,7 +19,9 @@
 		<input type="submit" value="Ajouter la reponse texte">
 	</f:form>
 
-	<f:form modelAttribute="reponseForm" method="post" action="${addReponseImage}" enctype="multipart/form-data">
+ 	<spring:url var = "addReponseImage" value='/admin/ajouterReponseImage' />
+	<f:form modelAttribute="reponseForm" method="post" action="${addReponseImage}" 
+			enctype="multipart/form-data">
 		<label>Réponse image</label>
 		<f:input path="name" type="file"/>
 		<f:errors path="name"></f:errors>

@@ -15,10 +15,14 @@ import org.dnr.devoir.model.QuestionForm;
 import org.dnr.devoir.model.QuestionnaireForm;
 import org.dnr.devoir.model.ReponseForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -78,14 +82,18 @@ public class QuestionController {
 
 	@RequestMapping(value="admin/ajouterReponseImage")
 	public String ajouterRepImage(Model model, ReponseForm rf,
-							 RedirectAttributes redirectAttrs) throws Exception{
+								  RedirectAttributes redirectAttrs, 
+								  @RequestParam("name") MultipartFile file) throws Exception{
 		Integer questionId = rf.getQuestionId();
 		Question q = metier.retrieveId(questionId);
 		
 		
-		Reponse rep = metier.createReponse(new Reponse(rf.getName(), "text", q, rf.getCorrect()));
-
-		
+		//Reponse rep = metier.createReponse(new Reponse(rf.getName(), "text", q, rf.getCorrect()));
+		 if (!file.isEmpty() && file.getSize() > 100000)
+		     throw new RuntimeException("File too large");
+		 
+		 model.addAttribute("bytes", file.getBytes());
+		 model.addAttribute("contentype",file.getContentType());
 		
 		redirectAttrs.addAttribute("questionId", questionId);
 		return "redirect:/admin/showQuestion/{questionId}";
