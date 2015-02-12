@@ -27,14 +27,24 @@
 					<c:when test="${multipleReponse}">
 						<div>
 							<input type="checkbox" value="${reponse.reponseId}" name="c-${question.questionId}"/>
-							${reponse.name}
+							<c:choose>
+						      <c:when test="${reponse.type == 'text'}">${reponse.name}</c:when>
+						      <c:otherwise><img height="200" width="200"
+						      				src="${pageContext.servletContext.contextPath}/resources/images/${reponse.name}">
+							  </c:otherwise>
+							</c:choose>
 						</div>
 				   	</c:when>
 
       				<c:otherwise>
 						<div>
 							<input type="radio" value="${reponse.reponseId}" name="r-${question.questionId}"/>
-							${reponse.name}
+							<c:choose>
+						      <c:when test="${reponse.type == 'text'}">${reponse.name}</c:when>
+						      <c:otherwise><img height="200" width="200"
+						      				src="${pageContext.servletContext.contextPath}/resources/images/${reponse.name}">
+							  </c:otherwise>
+							</c:choose>
 						</div>					
 					</c:otherwise>
 				</c:choose>

@@ -1,5 +1,8 @@
 package org.dnr.devoir.controller;
 
+import java.io.*;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +19,7 @@ import org.dnr.devoir.model.QuestionnaireForm;
 import org.dnr.devoir.model.ReponseForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +33,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class QuestionController {
 	@Autowired
 	private IQuestionMetier metier;
+	
+	@Autowired
+	ResourceLoader resourceLoader;
 	
 	@RequestMapping(value="admin/question")
 	public String index(Model model) throws Exception{
@@ -80,20 +87,37 @@ public class QuestionController {
 		return "redirect:/admin/showQuestion/{questionId}";
 	}
 
-	@RequestMapping(value="admin/ajouterReponseImage")
-	public String ajouterRepImage(Model model, ReponseForm rf,
-								  RedirectAttributes redirectAttrs, 
-								  @RequestParam("name") MultipartFile file) throws Exception{
+	@RequestMapping(value="admin/ajouterReponseImage", method = RequestMethod.POST)
+	public String ajouterRepImage(Model model, ReponseForm rf, HttpServletRequest request,
+								  RedirectAttributes redirectAttrs) throws Exception{
+		
 		Integer questionId = rf.getQuestionId();
 		Question q = metier.retrieveId(questionId);
-		
-		
-		//Reponse rep = metier.createReponse(new Reponse(rf.getName(), "text", q, rf.getCorrect()));
+		MultipartFile file = rf.getFileUpload();
+
+
 		 if (!file.isEmpty() && file.getSize() > 100000)
 		     throw new RuntimeException("File too large");
 		 
-		 model.addAttribute("bytes", file.getBytes());
-		 model.addAttribute("contentype",file.getContentType());
+		 Date currentDate = new Date();
+		 
+		 String fileName = currentDate.getTime()+"-"+file.getOriginalFilename();
+		 
+		 File finalFile = resourceLoader.getResource("resources/images/"+fileName).getFile();   
+		 
+		 try{
+			 file.transferTo(finalFile);
+			 Reponse rep = metier.createReponse(new Reponse(fileName, "image", q, rf.getCorrect()));
+			 
+		 } catch (IllegalStateException e) {
+	            e.printStackTrace();
+	            return "File uploaded failed:" + e.getMessage();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            return "File uploaded failed:" + e.getMessage();
+	        }
+		 
+		 
 		
 		redirectAttrs.addAttribute("questionId", questionId);
 		return "redirect:/admin/showQuestion/{questionId}";
@@ -109,6 +133,28 @@ public class QuestionController {
 		if(r != null){
 			q.getReponses().remove(r);
 			metier.deleteReponse(r);
+		}
+			
+		
+		redirectAttrs.addAttribute("questionId", questionId);
+		return "redirect:/admin/showQuestion/{questionId}";
+	}
+
+	
+	@RequestMapping(value="admin/deleteReponseImage/{reponseId}/{questionId}")
+	public String deleteReponseImage(@PathVariable Integer reponseId,@PathVariable Integer questionId,
+					   Model model, HttpServletRequest request, RedirectAttributes redirectAttrs) throws Exception{
+		
+		Reponse r = metier.retrieveIdReponse(reponseId);
+		Question q = metier.retrieveId(questionId);
+		File finalFile = resourceLoader.getResource("resources/images/"+r.getName()).getFile();
+		
+		if(r != null){
+			if(finalFile.delete()){
+				q.getReponses().remove(r);
+				metier.deleteReponse(r);
+			}
+
 		}
 			
 		
