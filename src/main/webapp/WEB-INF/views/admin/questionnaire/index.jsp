@@ -1,5 +1,4 @@
 <%@include file="/WEB-INF/views/admin/layout/header.jsp" %>
-
 	<f:form modelAttribute="questionnaireForm" method="post" action="ajouterQuestionnaire">
 		<label>Nom du questionnaire</label>
 		<f:input path="name"/>

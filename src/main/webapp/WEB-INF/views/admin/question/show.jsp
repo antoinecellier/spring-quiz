@@ -4,19 +4,30 @@
 	<h1>${Question.name}</h1>
 	
 	<spring:url var = "action" value='/admin/ajouterReponse' />
+		<spring:url var = "addReponseImage" value='/admin/ajouterReponseImage' />
 	<f:form modelAttribute="reponseForm" method="post" action="${action}">
-		<label>La réponse</label>
+		<label>Réponse texte</label>
 		<f:input path="name"/>
 		<f:errors path="name"></f:errors>
 		
 		<f:input type="hidden" path="questionId" value="${Question.questionId}"/>		
 		
 		<f:select path="correct" items="${selectCorrect}" />
-		<f:errors path="name"></f:errors>
 				
-		<input type="submit" value="Ajouter la reponse">
+		<input type="submit" value="Ajouter la reponse texte">
 	</f:form>
 
+	<f:form modelAttribute="reponseForm" method="post" action="${addReponseImage}" enctype="multipart/form-data">
+		<label>Réponse image</label>
+		<f:input path="name" type="file"/>
+		<f:errors path="name"></f:errors>
+		
+		<f:input type="hidden" path="questionId" value="${Question.questionId}" /> 
+		
+		<f:select path="correct" items="${selectCorrect}" /> <br>		
+		<input type="submit" value="Ajouter la reponse image">
+	</f:form>
+	
 	<c:if test="${not empty listReponses}">
 		<ul>
 		<c:forEach items="${listReponses}" var="reponse"> 

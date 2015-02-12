@@ -40,6 +40,12 @@ public class UtilisateurMetierImpl implements IUtilisateurMetier{
 	}
 
 	@Override
+	public Utilisateur retrieveId(Integer utilisateurId) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.retrieveId(utilisateurId);
+	}
+	
+	@Override
 	public boolean exists(String username) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.exists(username);

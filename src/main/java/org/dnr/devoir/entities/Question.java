@@ -28,12 +28,17 @@ public class Question implements Serializable{
 	@Column(name = "QUESTION_ID", unique = true, nullable = false)
 	private Integer questionId;
 	private String name;
+	
 	@ManyToMany(mappedBy="questions")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private Collection<Questionnaire> questionnaires;
 	
 	@OneToMany(mappedBy="question", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private Collection<Reponse> reponses;
+	
+	@ManyToMany(mappedBy="correctQuestions")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private Collection<Utilisateur> utilisateurs;
 
 	
 	public Question() {
@@ -83,4 +88,12 @@ public class Question implements Serializable{
 		this.reponses = reponses;
 	}
 	
+	public Collection<Utilisateur> getUtilisateurs() {
+		return utilisateurs;
+	}
+
+	public void setUtilisateurs(Collection<Utilisateur> utilisateurs) {
+		this.utilisateurs = utilisateurs;
+	}
+
 }

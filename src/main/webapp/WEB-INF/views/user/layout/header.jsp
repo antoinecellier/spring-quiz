@@ -21,10 +21,9 @@
 </head>
 <body>
 
-<spring:url var = "questionnairesLink" value='/admin/questionnaire' />
-<spring:url var = "questionsLink" value='/admin/question' />
-<spring:url var = "utilisateursLink" value='/admin/utilisateur' />
-
+<spring:url var = "userDashBoard" value='/user' />
+<spring:url var = "userScore" value='/user/score' />	
+	
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -35,16 +34,16 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li ><a href="${questionnairesLink}">Questionnaires<span class="sr-only">(current)</span></a></li>
-        <li><a href="${questionsLink}">Questions</a></li> 
-         <li><a href="${utilisateursLink}">Utilisateurs</a></li> 
-        <sec:authorize access="hasRole('ROLE_ADMIN')">
-		<c:if test="${pageContext.request.userPrincipal.name != null}">
-			<li><a href="javascript:formSubmit()"> Logout</a></li>
-		</c:if>
- 
- 
+		<li><a href="${userDashBoard}">Liste des questionnaires</a></li>
+		<li><a href="${userScore}">Votre score</a></li>
+		
+		<c:out value="${session.scoreCurrentUser}" />
+        <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+			<c:if test="${pageContext.request.userPrincipal.name != null}">
+				<li><a href="javascript:formSubmit()">Se déconnecter</a></li>
+			</c:if> 
 		</sec:authorize>
+
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

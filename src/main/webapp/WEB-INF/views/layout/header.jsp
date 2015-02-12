@@ -23,6 +23,10 @@
 <body>
 <spring:url var = "homeLink" value='/' />
 <spring:url var = "loginLink" value='/login' />
+<spring:url var = "adminDashBoard" value='/admin' />
+<spring:url var = "userDashBoard" value='/user' />
+
+
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -35,10 +39,45 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><a href="${homeLink}">Accueil</a></li>
-        <li><a href="${loginLink}">Se connecter</a></li>
+        
+        <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+        	<li><a href="${userDashBoard}">Répondre à un questionnaire</a></li>
+        </sec:authorize>
+         
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+        	<li><a href="${adminDashBoard}">Administration</a></li>
+        </sec:authorize>
+        
+        <sec:authorize access="isAnonymous()">
+       		 <li><a href="${loginLink}">Se connecter</a></li>
+       	</sec:authorize>
+        
+        <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
+		
+		<sec:authentication property="principal.authorities" var="userRole"/>
+		<sec:authentication property="principal.username" var="userName"/>
+		
+		<c:if test="${pageContext.request.userPrincipal.name != null}">
+			<li><a href="javascript:formSubmit()"> Logout ${userName} => ${userRole}</a></li>
+		</c:if>
+ 
+ 
+		</sec:authorize>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
+  		<!-- For login user -->
+		<c:url value="/logout" var="logoutUrl" />
+		<form action="${logoutUrl}" method="post" id="logoutForm">
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+		</form>
+		<script>
+			function formSubmit() {
+				document.getElementById("logoutForm").submit();
+			}
+		</script>
+		
 <div class="container">

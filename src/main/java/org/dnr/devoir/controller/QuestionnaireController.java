@@ -85,7 +85,9 @@ public class QuestionnaireController {
 										   @PathVariable Integer questionId) throws Exception{
 		Question q = metierQuestion.retrieveId(questionId);
 		Questionnaire qre = metier.retrieveId(questionnaireId);
-		qre.getQuestions().remove(q);
+		List<Question> listQ = (List<Question>) qre.getQuestions();
+		listQ.remove(q);
+		qre.setQuestions(listQ);
 		
 		metier.update(qre);
 
