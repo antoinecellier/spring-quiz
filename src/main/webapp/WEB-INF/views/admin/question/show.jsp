@@ -1,8 +1,8 @@
 <%@include file="/WEB-INF/views/admin/layout/header.jsp" %>
 	<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 	
-	${ bytes } <br>
-	${ contentype }
+	${ prout } <br>
+
 	<h1>${Question.name}</h1>
 	
 	<spring:url var = "action" value='/admin/ajouterReponse' />
@@ -19,28 +19,50 @@
 		<input type="submit" value="Ajouter la reponse texte">
 	</f:form>
 
- 	<spring:url var = "addReponseImage" value='/admin/ajouterReponseImage' />
-	<f:form modelAttribute="reponseForm" method="post" action="${addReponseImage}" 
+ 	<spring:url var = "addReponseImage" value='/admin/ajouterReponseImage?${_csrf.parameterName}=${_csrf.token}' />
+	<form modelAttribute="reponseForm" method="post" action="${addReponseImage}" 
 			enctype="multipart/form-data">
+			
 		<label>Réponse image</label>
-		<f:input path="name" type="file"/>
-		<f:errors path="name"></f:errors>
+		<input name="fileUpload" type="file"/>
 		
-		<f:input type="hidden" path="questionId" value="${Question.questionId}" /> 
+		<select name="correct">
+			<c:forEach items="${selectCorrect}" var="c">
+				<option value="${c.key}">${c.value}</option>
+			</c:forEach>
+		</select>
 		
-		<f:select path="correct" items="${selectCorrect}" /> <br>		
+		<input type="hidden" name="questionId" value="${Question.questionId}" /> 
+		
 		<input type="submit" value="Ajouter la reponse image">
-	</f:form>
+	</form>
 	
 	<c:if test="${not empty listReponses}">
 		<ul>
 		<c:forEach items="${listReponses}" var="reponse"> 
-		    <li>
-		    	${reponse.name}. ${reponse.correct} | 
-		    <a href="${contextPath}/admin/deleteReponse/${reponse.reponseId}/${Question.questionId}">
-		    	X
-		    </a>
-		    </li>
+			<c:choose>
+			      <c:when test="${reponse.type == 'text'}">
+			      		<li>
+					    	${reponse.name}. ${reponse.correct} | 
+					    <a href="${contextPath}/admin/deleteReponse/${reponse.reponseId}/${Question.questionId}">
+					    	X
+					    </a>
+					    </li>
+			      </c:when>
+			
+			      <c:otherwise>
+			      		<li>
+			      			<img height="200" width="200"
+			      				src="${pageContext.servletContext.contextPath}/resources/images/${reponse.name}">
+					    	. ${reponse.correct} | 
+					    <a href="${contextPath}/admin/deleteReponseImage/${reponse.reponseId}/${Question.questionId}">
+					    	X
+					    </a>
+					    </li>
+			      </c:otherwise>
+			</c:choose>
+
+		
 		</c:forEach>
 		</ul>
 	</c:if> 
