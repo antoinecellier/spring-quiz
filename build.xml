@@ -51,7 +51,7 @@
             </fileset>
         </copy>
         <copy includeemptydirs="false" todir="target/test-classes">
-            <fileset dir="src/test/java">
+            <fileset dir="src/test/">
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -78,7 +78,6 @@
             <classpath refid="FilRouge.classpath"/>
         </javac>
         <javac debug="true" debuglevel="${debuglevel}" destdir="target/test-classes" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src/test/java"/>
             <src path="src/test/resources"/>
             <include name="**/*.java"/>
             <classpath refid="FilRouge.classpath"/>

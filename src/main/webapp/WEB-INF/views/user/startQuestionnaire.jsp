@@ -29,8 +29,9 @@
 							<input type="checkbox" value="${reponse.reponseId}" name="c-${question.questionId}"/>
 							<c:choose>
 						      <c:when test="${reponse.type == 'text'}">${reponse.name}</c:when>
-						      <c:otherwise><img height="200" width="200"
-						      				src="${pageContext.servletContext.contextPath}/resources/images/${reponse.name}">
+						      <c:otherwise>
+                                  <spring:url var="picture" value='/user/image/${reponse.name}' />
+                                  <img height="200" width="200" src="${picture}">
 							  </c:otherwise>
 							</c:choose>
 						</div>
@@ -41,8 +42,9 @@
 							<input type="radio" value="${reponse.reponseId}" name="r-${question.questionId}"/>
 							<c:choose>
 						      <c:when test="${reponse.type == 'text'}">${reponse.name}</c:when>
-						      <c:otherwise><img height="200" width="200"
-						      				src="${pageContext.servletContext.contextPath}/resources/images/${reponse.name}">
+						      <c:otherwise>
+                                  <spring:url var="picture" value='/user/image/${reponse.name}' />
+                                  <img height="200" width="200" src="${picture}">
 							  </c:otherwise>
 							</c:choose>
 						</div>					

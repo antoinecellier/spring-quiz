@@ -8,7 +8,7 @@
 	<spring:url var = "action" value='/admin/ajouterReponse' />
 		
 	<f:form modelAttribute="reponseForm" method="post" action="${action}">
-		<label>Réponse texte</label>
+		<label>RÃ©ponse texte</label>
 		<f:input path="name"/>
 		<f:errors path="name"></f:errors>
 		
@@ -23,7 +23,7 @@
 	<form modelAttribute="reponseForm" method="post" action="${addReponseImage}" 
 			enctype="multipart/form-data">
 			
-		<label>Réponse image</label>
+		<label>Rï¿½ponse image</label>
 		<input name="fileUpload" type="file"/>
 		
 		<select name="correct">
@@ -36,7 +36,6 @@
 		
 		<input type="submit" value="Ajouter la reponse image">
 	</form>
-	
 	<c:if test="${not empty listReponses}">
 		<ul>
 		<c:forEach items="${listReponses}" var="reponse"> 
@@ -49,11 +48,11 @@
 					    </a>
 					    </li>
 			      </c:when>
-			
+
 			      <c:otherwise>
 			      		<li>
-			      			<img height="200" width="200"
-			      				src="${pageContext.servletContext.contextPath}/resources/images/${reponse.name}">
+                            <spring:url var="picture" value='/user/image/${reponse.name}' />
+                            <img height="200" width="200" src="${picture}">
 					    	. ${reponse.correct} | 
 					    <a href="${contextPath}/admin/deleteReponseImage/${reponse.reponseId}/${Question.questionId}">
 					    	X

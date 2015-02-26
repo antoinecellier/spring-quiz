@@ -1,40 +1,38 @@
 package org.dnr.devoir.controller;
 
-import java.io.*;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.dnr.devoir.entities.Question;
-import org.dnr.devoir.entities.Questionnaire;
 import org.dnr.devoir.entities.Reponse;
 import org.dnr.devoir.metier.question.IQuestionMetier;
-import org.dnr.devoir.metier.utilisateur.IUtilisateurMetier;
 import org.dnr.devoir.model.QuestionForm;
-import org.dnr.devoir.model.QuestionnaireForm;
 import org.dnr.devoir.model.ReponseForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class QuestionController {
 	@Autowired
 	private IQuestionMetier metier;
-	
-	@Autowired
+
+    @Autowired
+    ServletContext context;
+
+    @Autowired
 	ResourceLoader resourceLoader;
 	
 	@RequestMapping(value="admin/question")
@@ -102,11 +100,13 @@ public class QuestionController {
 		 Date currentDate = new Date();
 		 
 		 String fileName = currentDate.getTime()+"-"+file.getOriginalFilename();
-		 
-		 File finalFile = resourceLoader.getResource("resources/images/"+fileName).getFile();   
-		 
+
+
+
+		// File finalFile = resourceLoader.getResource("resources/images/"+fileName).getFile();
+         File path = new File(this.context.getInitParameter("data")+fileName);
 		 try{
-			 file.transferTo(finalFile);
+			 file.transferTo(path);
 			 Reponse rep = metier.createReponse(new Reponse(fileName, "image", q, rf.getCorrect()));
 			 
 		 } catch (IllegalStateException e) {
@@ -116,9 +116,6 @@ public class QuestionController {
 	            e.printStackTrace();
 	            return "File uploaded failed:" + e.getMessage();
 	        }
-		 
-		 
-		
 		redirectAttrs.addAttribute("questionId", questionId);
 		return "redirect:/admin/showQuestion/{questionId}";
 	}
@@ -134,12 +131,31 @@ public class QuestionController {
 			q.getReponses().remove(r);
 			metier.deleteReponse(r);
 		}
-			
-		
+
 		redirectAttrs.addAttribute("questionId", questionId);
 		return "redirect:/admin/showQuestion/{questionId}";
 	}
 
+    @RequestMapping(value="user/image/{imageNom}.{extension}")
+    public void showImage(@PathVariable String imageNom,@PathVariable String extension, HttpServletResponse res) throws IOException {
+
+        File path = new File(this.context.getInitParameter("data")+imageNom+"."+extension);
+
+        String mimetype = this.context.getMimeType(path.toString());
+        res.setContentType(mimetype);
+        BufferedInputStream read = new BufferedInputStream(new FileInputStream(path));
+        BufferedOutputStream out = new BufferedOutputStream(res.getOutputStream());
+
+        byte[] buffer = new byte[8192];
+
+        int longueur = 0;
+
+        while ( ( longueur = read.read( buffer ) ) > 0 ) {
+            out.write( buffer, 0, longueur );
+        }
+        read.close();
+        out.close();
+    }
 	
 	@RequestMapping(value="admin/deleteReponseImage/{reponseId}/{questionId}")
 	public String deleteReponseImage(@PathVariable Integer reponseId,@PathVariable Integer questionId,
@@ -147,8 +163,9 @@ public class QuestionController {
 		
 		Reponse r = metier.retrieveIdReponse(reponseId);
 		Question q = metier.retrieveId(questionId);
-		File finalFile = resourceLoader.getResource("resources/images/"+r.getName()).getFile();
-		
+
+        File finalFile = new File(this.context.getInitParameter("data")+r.getName());
+
 		if(r != null){
 			if(finalFile.delete()){
 				q.getReponses().remove(r);

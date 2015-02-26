@@ -1,12 +1,5 @@
 package org.dnr.devoir.controller;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.dnr.devoir.entities.Question;
 import org.dnr.devoir.entities.Questionnaire;
 import org.dnr.devoir.entities.Reponse;
@@ -22,6 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 @Controller
 public class JeuController {
@@ -114,6 +112,8 @@ public class JeuController {
 				}
 				else{
 					score = score - 1;
+                    currentUser.setScore(score + currentUser.getScore());
+                    metierUtilisateur.update(currentUser);
 				}
 			}
 		}
