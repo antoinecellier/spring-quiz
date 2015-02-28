@@ -2,9 +2,9 @@
 	
 	<h4>Liste des questionnaires</h4>
 	<c:if test="${not empty listQuestionnaire}">
-		<ul>
+		<ul class="list-group">
 		<c:forEach items="${listQuestionnaire}" var="questionnaire"> 
-		    <li>
+		    <li class="list-group-item">
 		    	<a href="user/startQuestionnaire/${questionnaire.questionnaireId}">
 		    	${questionnaire.name}.
 		    	</a>

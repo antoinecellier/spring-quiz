@@ -40,7 +40,7 @@
          <li><a href="${utilisateursLink}">Utilisateurs</a></li> 
         <sec:authorize access="hasRole('ROLE_ADMIN')">
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
-			<li><a href="javascript:formSubmit()"> Logout</a></li>
+			<li><a href="javascript:formSubmit()"> Déconnexion</a></li>
 		</c:if>
  
  

@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/user/layout/header.jsp" %>
 
 	<h2>${questionnaire.name}</h2>
@@ -25,36 +26,44 @@
 				<c:set  var="valueCheckBox" value="${question.questionId}-${reponse.reponseId}"/>
 				<c:choose>
 					<c:when test="${multipleReponse}">
-						<div>
-							<input type="checkbox" value="${reponse.reponseId}" name="c-${question.questionId}"/>
-							<c:choose>
-						      <c:when test="${reponse.type == 'text'}">${reponse.name}</c:when>
-						      <c:otherwise>
-                                  <spring:url var="picture" value='/user/image/${reponse.name}' />
-                                  <img height="200" width="200" src="${picture}">
-							  </c:otherwise>
-							</c:choose>
-						</div>
+
+                            <div class="checkbox">
+                                <label>
+                                <input  type="checkbox" value="${reponse.reponseId}" name="c-${question.questionId}"/>
+                                    <c:choose>
+                                      <c:when test="${reponse.type == 'text'}">${reponse.name}</c:when>
+                                      <c:otherwise>
+                                          <spring:url var="picture" value='/user/image/${reponse.name}' />
+                                          <img height="200" width="200" src="${picture}">
+                                      </c:otherwise>
+                                    </c:choose>
+                                </label>
+                            </div>
+
 				   	</c:when>
 
       				<c:otherwise>
-						<div>
-							<input type="radio" value="${reponse.reponseId}" name="r-${question.questionId}"/>
-							<c:choose>
-						      <c:when test="${reponse.type == 'text'}">${reponse.name}</c:when>
-						      <c:otherwise>
-                                  <spring:url var="picture" value='/user/image/${reponse.name}' />
-                                  <img height="200" width="200" src="${picture}">
-							  </c:otherwise>
-							</c:choose>
-						</div>					
+
+                            <div class="radio">
+                                <label >
+                                    <input type="radio" value="${reponse.reponseId}" name="r-${question.questionId}"/>
+                                    <c:choose>
+                                      <c:when test="${reponse.type == 'text'}">${reponse.name}</c:when>
+                                      <c:otherwise>
+                                          <spring:url var="picture" value='/user/image/${reponse.name}' />
+                                          <img height="200" width="200" src="${picture}">
+                                      </c:otherwise>
+                                    </c:choose>
+                                </label>
+                            </div>
+
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
 	</c:forEach>
-	
-	<input type="submit" value="Envoyer le questionnaire">
-	
+        <div class="form-group">
+	        <input class="btn btn-default" type="submit" value="Envoyer le questionnaire">
+        </div>
 	</f:form>
 
 <%@include file="/WEB-INF/views/user/layout/footer.jsp" %>

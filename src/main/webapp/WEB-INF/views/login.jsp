@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/layout/header.jsp" %>
  
 	<h3>Connexion</h3>
@@ -12,22 +13,20 @@
 		<form name='loginForm'
 		  action="<c:url value='/j_spring_security_check' />" method='POST'>
  
-		<table>
-			<tr>
-				<td>User:</td>
-				<td><input type='text' name='username'></td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input type='password' name='password' /></td>
-			</tr>
-			<tr>
-				<td colspan='2'><input name="submit" type="submit"
-				  value="submit" /></td>
-			</tr>
-		  </table>
- 
-		  <input type="hidden" name="${_csrf.parameterName}"
+		<div class="form-group">
+            <label for="username">Utilisateur</label>
+            <input type='text' required="required" class="form-control" id="username" name='username'>
+        </div>
+        <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <input type='password' required="required" class="form-control" id="password" name='password'>
+        </div>
+		<div class="form-group">
+            <input class="btn btn-default" name="submit" type="submit"
+                   value="submit" />
+        </div>
+
+            <input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
  
 		</form>

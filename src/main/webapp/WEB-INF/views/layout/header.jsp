@@ -58,7 +58,7 @@
 		<sec:authentication property="principal.username" var="userName"/>
 		
 		<c:if test="${pageContext.request.userPrincipal.name != null}">
-			<li><a href="javascript:formSubmit()"> Logout ${userName} => ${userRole}</a></li>
+			<li><a href="javascript:formSubmit()"> Déconnexion ${userName} => ${userRole}</a></li>
 		</c:if>
  
  

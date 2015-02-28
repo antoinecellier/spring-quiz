@@ -1,20 +1,25 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/views/admin/layout/header.jsp" %>
 
 	<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 	
 	<h1>${Questionnaire.name}</h1>
-	<h1>Identifiant : ${Questionnaire.questionnaireId}</h1>
 
 	<c:choose>
 	      <c:when test="${not empty questionSelect}">
 			<spring:url var = "action" 
 						value='/admin/ajouterQuestionQuestionnaire/${Questionnaire.questionnaireId}' />
 		 	<f:form modelAttribute="questionForm" method="post" action="${action}">
-				<label>Nom de la question</label>
-				<f:select path="questionId" items="${questionSelect}" />
-				
-				<input type="submit" value="Ajouter la question au questionnaire">
-			</f:form>
+				<div class="form-group">
+                    <label>Nom de la question</label>
+                    <f:select path="questionId" cssClass="form-control" items="${questionSelect}" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-default" value="Ajouter la question au questionnaire">
+                </div>
+
+            </f:form>
 	      </c:when>
 	
 	      <c:otherwise>
@@ -23,9 +28,9 @@
 	</c:choose>
 	
 	<c:if test="${not empty listQuestion}">
-		<ul>
+		<ul class="list-group">
 		<c:forEach items="${listQuestion}" var="question"> 
-		    <li>
+		    <li class="list-group-item">
 		    	${question.name} |
 		    	<a 
 		    	href="${contextPath}/admin/supprimerQuestionQuestionnaire/${question.questionId}/${Questionnaire.questionnaireId}">
