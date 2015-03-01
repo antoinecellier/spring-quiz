@@ -1,19 +1,19 @@
 package org.dnr.devoir.controller;
 
-import java.io.IOException;
-import java.util.Set;
+import org.dnr.devoir.metier.utilisateur.IUtilisateurMetier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Set;
 
-import org.dnr.devoir.entities.Utilisateur;
-import org.dnr.devoir.metier.utilisateur.IUtilisateurMetier;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-
+/**
+ * Manage authentification of user
+ */
 public class CustomAuthenticationHandler extends SimpleUrlAuthenticationSuccessHandler {
 	private IUtilisateurMetier metier;
 	

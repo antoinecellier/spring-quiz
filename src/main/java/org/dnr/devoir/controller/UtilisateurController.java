@@ -26,7 +26,11 @@ import java.util.Map;
 public class UtilisateurController {
 	@Autowired
 	private IUtilisateurMetier metier;
-	
+
+    /**
+     * Show all user and form for add user into admin panel
+     * @throws Exception
+     */
 	@RequestMapping(value="admin/utilisateur")
 	public String index(Model model) throws Exception{
 		model.addAttribute("utilisateurForm", new UtilisateurForm());
@@ -41,6 +45,10 @@ public class UtilisateurController {
 		return "admin/utilisateur/index";
 	}
 
+    /**
+     * show form for add user
+     * @throws Exception
+     */
     @RequestMapping(value="/newUser")
     public String newUser(Model model) throws Exception{
         model.addAttribute("utilisateurForm", new UtilisateurForm());
@@ -52,6 +60,10 @@ public class UtilisateurController {
         return "newUser";
     }
 
+    /**
+     * Valid add user
+     * @throws Exception
+     */
 	@RequestMapping(value={"admin/ajouterUtilisateur", "publicAddUser"})
 	public String ajouter(UtilisateurForm uf, Model model, HttpServletRequest request) throws Exception{
 		Utilisateur u = new Utilisateur(uf.getUsername(), uf.getPassword(), uf.getRole(), 1);
@@ -64,7 +76,11 @@ public class UtilisateurController {
         else
             return "redirect:/login";
 	}
-	
+
+    /**
+     * Delete user
+     * @throws Exception
+     */
 	@RequestMapping(value="admin/deleteUtilisateur/{utilisateurId}")
 	public String delete(@PathVariable Integer utilisateurId,
 					   Model model, final RedirectAttributes redirectAttributes) throws Exception{
@@ -86,10 +102,11 @@ public class UtilisateurController {
 		
 		return "redirect:/admin/utilisateur";
 	}
-	
-	
 
-	
+
+    /**
+     * Login
+     */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
 		@RequestParam(value = "logout", required = false) String logout) {
@@ -106,8 +123,10 @@ public class UtilisateurController {
  
 	  return model;
 	}
-	
-	//for 403 access denied page
+
+    /**
+     * for 403 access denied page
+     */
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
 	public ModelAndView accesssDenied() {
  

@@ -1,10 +1,10 @@
 package org.dnr.devoir.metier.question;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.dnr.devoir.entities.Question;
 import org.dnr.devoir.entities.Reponse;
+
+import java.util.Collection;
+import java.util.List;
 
 public interface IQuestionMetier{
 
@@ -28,7 +28,6 @@ public interface IQuestionMetier{
 
     /**
      * Adds an answer to this database.
-     * @param name Name of answer
     */
 
     public Reponse createReponse (Reponse r);
@@ -60,7 +59,7 @@ public interface IQuestionMetier{
 
     /**
      * Returns the answer with a given id (i.e., primary key).
-     * @param id The id to search for
+     * @param reponseId The id to search for
      * @return The answer with the given id in the list
      * @throws Exception if no answer with the given name exists in the list or a database access error
      * occurs
@@ -82,8 +81,7 @@ public interface IQuestionMetier{
      * Updates the answer associated to a given name in the database.
      * Given that the email address is part of an instance of Person, this method
      * may be safely used to change the email address itself.
-     * @param name The name of the answer to update
-     * @param question An instance of Answer to store in place of the existing one
+
      * @throws Exception if no question is currently associated to the given name,
      * or the new instance has an email address which already exists in the database, or a
      * database access error occurs
@@ -93,7 +91,6 @@ public interface IQuestionMetier{
 
     /**
      * Removes the answer with a given name from this database.
-     * @param name The name of the answer to remove
      * @throws Exception if no question is currently associated to the given name
      * or a database access error occurs
      */

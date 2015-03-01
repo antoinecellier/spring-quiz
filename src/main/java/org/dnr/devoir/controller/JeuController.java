@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+
 @Controller
 public class JeuController {
 
@@ -32,7 +33,11 @@ public class JeuController {
 
 	@Autowired
 	private IUtilisateurMetier metierUtilisateur;
-	
+
+    /**
+     * Home user, show questionnaire's list
+     * @throws Exception
+     */
 	@RequestMapping(value="user")
 	public String indexUser(Model model) throws Exception{
 		
@@ -43,7 +48,12 @@ public class JeuController {
         model.addAttribute("listUtilisateur", utilisateurs);
 		return "user/home";
 	}
-	
+
+    /**
+     * user  start a questionnaire
+     * @param questionnaireId questinnaire'id
+     * @throws Exception
+     */
 	@RequestMapping(value="user/startQuestionnaire/{questionnaireId}")
 	public String startQuestionnaire(@PathVariable Integer questionnaireId,Model model) throws Exception{
 		
@@ -70,7 +80,11 @@ public class JeuController {
 		return "user/startQuestionnaire";
 	}
 
-	
+    /**
+     * Check response of questinnaire send by user
+     * @param questionnaireId questionnaire id
+     * @throws Exception
+     */
 	@RequestMapping(value="user/checkQuestionnaire/{questionnaireId}", method = RequestMethod.POST)
 	public String checkQuestionnaire(@PathVariable Integer questionnaireId,
 									 HttpServletRequest request,Model model) throws Exception{
@@ -127,7 +141,11 @@ public class JeuController {
 		
 		return "user/resultQuestionnaire";
 	}
-	
+
+    /**
+     * Show score of user
+     * @throws Exception
+     */
 	@RequestMapping(value="user/score")
 	public String score(Model model) throws Exception{
 		
@@ -153,7 +171,6 @@ public class JeuController {
 
 	public Boolean handleResultRadio(String value, Question q) throws NumberFormatException, Exception{
 		Reponse rep = metierQuestion.retrieveIdReponse(Integer.parseInt(value));
-		
 		return rep.getCorrect();
 	}
 	

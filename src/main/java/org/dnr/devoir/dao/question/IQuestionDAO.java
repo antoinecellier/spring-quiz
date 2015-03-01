@@ -1,10 +1,10 @@
 package org.dnr.devoir.dao.question;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.dnr.devoir.entities.Question;
 import org.dnr.devoir.entities.Reponse;
+
+import java.util.Collection;
+import java.util.List;
 
 
 public interface IQuestionDAO {
@@ -13,8 +13,6 @@ public interface IQuestionDAO {
 
     /**
      * Adds a question to this database.
-     * @param name Name of question
-     * @param answers list of responses possible
      * @throws Exception if a question with the same name
     */
 
@@ -47,7 +45,7 @@ public interface IQuestionDAO {
     
     /**
      * Returns the question with a given id(i.e., primary key).
-     * @param id The id to search for
+     * @param questionId The id to search for
      * @return The question with the given name in the list
      * @throws Exception if no question with the given name exists in the list or a database access error
      * occurs
@@ -68,8 +66,6 @@ public interface IQuestionDAO {
      * Updates the question associated to a given name in the database.
      * Given that the email address is part of an instance of Person, this method
      * may be safely used to change the email address itself.
-     * @param name The name of the question to update
-     * @param question An instance of Question to store in place of the existing one
      * @throws Exception if no question is currently associated to the given name,
      * or the new instance has an email address which already exists in the database, or a
      * database access error occurs
@@ -79,7 +75,6 @@ public interface IQuestionDAO {
 
     /**
      * Removes the question with a given name address from this database.
-     * @param name The name of the question to remove
      * @throws Exception if no question is currently associated to the given name
      * or a database access error occurs
      */
@@ -90,7 +85,7 @@ public interface IQuestionDAO {
 
     /**
      * Adds an answer to this database.
-     * @param name Name of answer
+     * @param r response
     */
 
     public Reponse createReponse (Reponse r);
@@ -122,7 +117,7 @@ public interface IQuestionDAO {
 
     /**
      * Returns the answer with a given id (i.e., primary key).
-     * @param id The id to search for
+     * @param reponseId The id to search for
      * @return The answer with the given id in the list
      * @throws Exception if no answer with the given name exists in the list or a database access error
      * occurs
@@ -143,8 +138,7 @@ public interface IQuestionDAO {
      * Updates the answer associated to a given name in the database.
      * Given that the email address is part of an instance of Person, this method
      * may be safely used to change the email address itself.
-     * @param name The name of the answer to update
-     * @param question An instance of Answer to store in place of the existing one
+
      * @throws Exception if no question is currently associated to the given name,
      * or the new instance has an email address which already exists in the database, or a
      * database access error occurs
@@ -154,7 +148,7 @@ public interface IQuestionDAO {
 
     /**
      * Removes the answer with a given name from this database.
-     * @param name The name of the answer to remove
+
      * @throws Exception if no question is currently associated to the given name
      * or a database access error occurs
      */

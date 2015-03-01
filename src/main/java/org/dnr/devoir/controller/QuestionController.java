@@ -34,7 +34,11 @@ public class QuestionController {
 
     @Autowired
 	ResourceLoader resourceLoader;
-	
+
+    /**
+     * show all question
+     * @throws Exception
+     */
 	@RequestMapping(value="admin/question")
 	public String index(Model model) throws Exception{
 		model.addAttribute("questionForm", new QuestionForm());
@@ -44,7 +48,11 @@ public class QuestionController {
 
 		return "admin/question/index";
 	}
-	
+
+    /**
+     * Add question
+     * @throws Exception
+     */
 	@RequestMapping(value="admin/ajouterQuestion")
 	public String ajouter(QuestionForm qf,Model model) throws Exception{
 		Question q = new Question(qf.getName());
@@ -53,7 +61,12 @@ public class QuestionController {
 
 		return "redirect:/admin/question";
 	}
-	
+
+    /**
+     * Show a question
+     * @param questionId question id
+     * @throws Exception
+     */
 	@RequestMapping(value="admin/showQuestion/{questionId}")
 	public String show(@PathVariable Integer questionId,
 					   Model model) throws Exception{
@@ -73,6 +86,10 @@ public class QuestionController {
 		return "admin/question/show";
 	}
 
+    /**
+     * Add a response text
+     * @throws Exception
+     */
 	@RequestMapping(value="admin/ajouterReponse")
 	public String ajouterRep(Model model, ReponseForm rf,
 							 RedirectAttributes redirectAttrs) throws Exception{
@@ -85,6 +102,10 @@ public class QuestionController {
 		return "redirect:/admin/showQuestion/{questionId}";
 	}
 
+    /**
+     * Add a response text
+     * @throws Exception
+     */
 	@RequestMapping(value="admin/ajouterReponseImage", method = RequestMethod.POST)
 	public String ajouterRepImage(Model model, ReponseForm rf, HttpServletRequest request,
 								  RedirectAttributes redirectAttrs) throws Exception{
@@ -119,7 +140,11 @@ public class QuestionController {
 		redirectAttrs.addAttribute("questionId", questionId);
 		return "redirect:/admin/showQuestion/{questionId}";
 	}
-	
+
+    /**
+     * delete response
+     * @throws Exception
+     */
 	@RequestMapping(value="admin/deleteReponse/{reponseId}/{questionId}")
 	public String deleteReponse(@PathVariable Integer reponseId,@PathVariable Integer questionId,
 					   Model model, HttpServletRequest request, RedirectAttributes redirectAttrs) throws Exception{
@@ -156,7 +181,11 @@ public class QuestionController {
         read.close();
         out.close();
     }
-	
+
+    /**
+     * delete response picture
+     * @throws Exception
+     */
 	@RequestMapping(value="admin/deleteReponseImage/{reponseId}/{questionId}")
 	public String deleteReponseImage(@PathVariable Integer reponseId,@PathVariable Integer questionId,
 					   Model model, HttpServletRequest request, RedirectAttributes redirectAttrs) throws Exception{
@@ -178,7 +207,11 @@ public class QuestionController {
 		redirectAttrs.addAttribute("questionId", questionId);
 		return "redirect:/admin/showQuestion/{questionId}";
 	}
-	
+
+    /**
+     * delete question
+     * @throws Exception
+     */
 	@RequestMapping(value="admin/deleteQuestion/{questionId}")
 	public String delete(@PathVariable Integer questionId,
 					   Model model, final RedirectAttributes redirectAttributes) throws Exception{
