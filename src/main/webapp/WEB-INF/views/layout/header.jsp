@@ -25,6 +25,7 @@
 <spring:url var = "loginLink" value='/login' />
 <spring:url var = "adminDashBoard" value='/admin' />
 <spring:url var = "userDashBoard" value='/user' />
+<spring:url var = "newUser" value='/newUser' />
 
 
 
@@ -39,10 +40,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><a href="${homeLink}">Accueil</a></li>
-        
-        <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
-        	<li><a href="${userDashBoard}">Répondre à un questionnaire</a></li>
-        </sec:authorize>
+
          
         <sec:authorize access="hasRole('ROLE_ADMIN')">
         	<li><a href="${adminDashBoard}">Administration</a></li>
@@ -51,6 +49,10 @@
         <sec:authorize access="isAnonymous()">
        		 <li><a href="${loginLink}">Se connecter</a></li>
        	</sec:authorize>
+          <sec:authorize access="isAnonymous()">
+            <li><a href="${newUser}">Inscription</a></li>
+          </sec:authorize>
+
         
         <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER')">
 		

@@ -23,7 +23,8 @@
 
 <spring:url var = "userDashBoard" value='/user' />
 <spring:url var = "userScore" value='/user/score' />	
-	
+<spring:url var = "admin" value='/admin' />
+
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -43,8 +44,12 @@
 				<li><a href="javascript:formSubmit()">Se déconnecter</a></li>
 			</c:if> 
 		</sec:authorize>
-
       </ul>
+        <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="${admin}">Panneau d'administration</a></li>
+        </ul>
+        </sec:authorize>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
   	

@@ -24,6 +24,7 @@
 <spring:url var = "questionnairesLink" value='/admin/questionnaire' />
 <spring:url var = "questionsLink" value='/admin/question' />
 <spring:url var = "utilisateursLink" value='/admin/utilisateur' />
+<spring:url var = "userDisplay" value='/user' />
 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -46,6 +47,9 @@
  
 		</sec:authorize>
       </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="${userDisplay}">Mode utilisateur</a></li>
+        </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
   	

@@ -38,7 +38,9 @@ public class JeuController {
 		
 		List<Questionnaire> questionnaires = (List<Questionnaire>) metierQuestionnaire.retrieveAll();
 		model.addAttribute("listQuestionnaire", questionnaires);
-		
+
+        List<Utilisateur> utilisateurs = (List<Utilisateur>) metierUtilisateur.retrieveBestScore();
+        model.addAttribute("listUtilisateur", utilisateurs);
 		return "user/home";
 	}
 	

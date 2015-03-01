@@ -1,10 +1,10 @@
 package org.dnr.devoir.metier.utilisateur;
 
-import java.util.Collection;
-
 import org.dnr.devoir.dao.utilisateur.IUtilisateurDAO;
 import org.dnr.devoir.entities.Utilisateur;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
 
 @Transactional
 public class UtilisateurMetierImpl implements IUtilisateurMetier{
@@ -27,11 +27,15 @@ public class UtilisateurMetierImpl implements IUtilisateurMetier{
 		return dao.retrieveAll();
 	}
 
+    public Collection<Utilisateur> retrieveBestScore() throws Exception{
+        return dao.retrieveBestScore();
+    }
 	@Override
 	public Collection<String> retrieveAllName() throws Exception {
 		// TODO Auto-generated method stub
 		return dao.retrieveAllName();
 	}
+
 
 	@Override
 	public Utilisateur retrieve(String username) throws Exception {

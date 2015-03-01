@@ -1,14 +1,16 @@
 package org.dnr.devoir.dao.utilisateur;
 
-import java.util.Collection;
-
 import org.dnr.devoir.entities.Utilisateur;
+
+import java.util.Collection;
 
 public interface IUtilisateurDAO {
 	
 	public Utilisateur create (Utilisateur u) throws Exception;
 
     public Collection<Utilisateur> retrieveAll () throws Exception;
+
+    public Collection<Utilisateur> retrieveBestScore () throws Exception;
 
     public Collection<String> retrieveAllName () throws Exception;
 

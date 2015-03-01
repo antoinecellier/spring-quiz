@@ -13,4 +13,24 @@
 		</ul>
 	</c:if>
 
+    <div>
+        <h4>Meilleur score</h4>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${listUtilisateur}" var="utilisateur">
+                <tr>
+                    <td>${utilisateur.username}</td>
+                    <td>${utilisateur.score}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+
 <%@include file="/WEB-INF/views/user/layout/footer.jsp" %>

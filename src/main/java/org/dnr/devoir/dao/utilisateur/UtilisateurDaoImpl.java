@@ -1,13 +1,11 @@
 package org.dnr.devoir.dao.utilisateur;
 
-import java.util.Collection;
-import java.util.List;
+import org.dnr.devoir.entities.Utilisateur;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import org.dnr.devoir.entities.Utilisateur;
+import java.util.List;
 
 public class UtilisateurDaoImpl implements IUtilisateurDAO {
 
@@ -26,6 +24,11 @@ public class UtilisateurDaoImpl implements IUtilisateurDAO {
 		return req.getResultList();
 	}
 
+    public List<Utilisateur> retrieveBestScore() throws  Exception{
+        Query req = em.createQuery("select u from Utilisateur u  ORDER BY score DESC");
+        req.setMaxResults(10);
+        return req.getResultList();
+    }
 	@Override
 	public List<String> retrieveAllName() throws Exception {
 		Query req = em.createQuery("select u.username from Utilisateur u");

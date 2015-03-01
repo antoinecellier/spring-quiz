@@ -1,10 +1,5 @@
 package org.dnr.devoir.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.dnr.devoir.entities.Question;
 import org.dnr.devoir.entities.Utilisateur;
 import org.dnr.devoir.metier.utilisateur.IUtilisateurMetier;
 import org.dnr.devoir.model.UtilisateurForm;
@@ -21,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UtilisateurController {
@@ -40,15 +40,29 @@ public class UtilisateurController {
 		model.addAttribute("listUtilisateur", listUtilisateur);
 		return "admin/utilisateur/index";
 	}
-	
-	@RequestMapping(value="admin/ajouterUtilisateur")
-	public String ajouter(UtilisateurForm uf, Model model) throws Exception{
+
+    @RequestMapping(value="/newUser")
+    public String newUser(Model model) throws Exception{
+        model.addAttribute("utilisateurForm", new UtilisateurForm());
+
+        Map<String, String> roles = new HashMap<String, String>();
+        roles.put("ROLE_USER", "Utilisateur");
+        model.addAttribute("roleSelect", roles);
+
+        return "newUser";
+    }
+
+	@RequestMapping(value={"admin/ajouterUtilisateur", "publicAddUser"})
+	public String ajouter(UtilisateurForm uf, Model model, HttpServletRequest request) throws Exception{
 		Utilisateur u = new Utilisateur(uf.getUsername(), uf.getPassword(), uf.getRole(), 1);
 		Utilisateur uFinal = metier.create(u);
 
 		model.addAttribute("utilisateurForm", uf);
-		
-		return "redirect:utilisateur";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken))
+            return "redirect:utilisateur";
+        else
+            return "redirect:/login";
 	}
 	
 	@RequestMapping(value="admin/deleteUtilisateur/{utilisateurId}")
@@ -74,7 +88,7 @@ public class UtilisateurController {
 	}
 	
 	
-	
+
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,

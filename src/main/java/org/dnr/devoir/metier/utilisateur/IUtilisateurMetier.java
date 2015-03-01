@@ -1,8 +1,8 @@
 package org.dnr.devoir.metier.utilisateur;
 
-import java.util.Collection;
-
 import org.dnr.devoir.entities.Utilisateur;
+
+import java.util.Collection;
 
 public interface IUtilisateurMetier{
 	
@@ -11,6 +11,8 @@ public interface IUtilisateurMetier{
     public Collection<Utilisateur> retrieveAll () throws Exception;
 
     public Collection<String> retrieveAllName () throws Exception;
+
+    public Collection<Utilisateur> retrieveBestScore () throws Exception;
 
     public Utilisateur retrieve (String name) throws Exception;
 
